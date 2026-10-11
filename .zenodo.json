@@ -1,0 +1,42 @@
+{
+  "title": "Nhà Máy FDI: an 8-quarter FDI-factory management simulation for Vietnam",
+  "upload_type": "software",
+  "language": "vie",
+  "creators": [
+    {
+      "name": "Phan, Anh Tu",
+      "affiliation": "Can Tho University",
+      "orcid": "0000-0003-0667-3137"
+    },
+    {
+      "name": "Do, Thuy Huong",
+      "affiliation": "Can Tho University",
+      "orcid": "0000-0002-7711-2487"
+    }
+  ],
+  "description": "Nhà Máy FDI là trò chơi mô phỏng điều hành một nhà máy có vốn đầu tư nước ngoài tại Việt Nam qua 8 quý biến động: nguồn đầu vào, thị trường, quy tắc xuất xứ và thuế quan. Tách từ hệ sinh thái BizOn để lưu trữ học thuật và cấp DOI qua Zenodo. / Nhà Máy FDI is a simulation game of running a foreign-invested factory in Vietnam across 8 volatile quarters: input sourcing, markets, rules of origin and tariffs. Split out of the BizOn ecosystem for academic archiving and a Zenodo DOI.",
+  "access_right": "open",
+  "keywords": [
+    "foreign direct investment",
+    "FDI",
+    "Vietnam",
+    "manufacturing simulation",
+    "rules of origin",
+    "tariffs",
+    "business simulation",
+    "teaching tool"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/thuyhuongctu/BizOn",
+      "relation": "isDerivedFrom",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://thuyhuongctu.github.io/BizOn/lab/nha-may-fdi.html",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ],
+  "notes": "© 2026 Phan Anh Tu & Do Thuy Huong. All rights reserved. Proprietary software – archived for transparency and citation."
+}
