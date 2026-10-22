@@ -8,6 +8,12 @@ Trò chơi mô phỏng điều hành một nhà máy có vốn đầu tư nướ
 
 Mở trực tiếp `index.html` trong trình duyệt (không cần máy chủ), hoặc dùng bản đang chạy trực tuyến: **https://thuyhuongctu.github.io/BizOn/lab/nha-may-fdi.html**
 
+## Ngôn ngữ / Language
+
+Giao diện mặc định là tiếng Anh. Nếu trình duyệt đặt tiếng Việt, trang hiện thanh gợi ý chuyển sang tiếng Việt; lựa chọn được ghi nhớ trên máy. Có thể mở thẳng bản tiếng Việt bằng `index.html?lang=vi` (ví dụ khi gửi link cho lớp).
+
+*The interface defaults to English. Visitors whose browser prefers Vietnamese see a bar suggesting the Vietnamese version; the choice is remembered on that device. Append `?lang=vi` or `?lang=en` to the URL to force a language.*
+
 ## Nguồn gốc / Provenance
 
 Repo này là bản sao độc lập (standalone snapshot) của Nhà Máy FDI, tách ra từ hệ sinh thái **[BizOn](https://github.com/thuyhuongctu/BizOn)** — nơi lab này vẫn đang được duy trì và phát triển. Repo riêng này tồn tại để lưu trữ học thuật và xin DOI qua Zenodo cho mục đích trích dẫn độc lập.

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="vi" data-theme="dark">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nhà máy FDI</title>
+<title>FDI Factory · Nhà máy FDI</title>
 <link rel="icon" href="assets/brand/bizon-favicon.svg" type="image/svg+xml">
-<meta name="description" content="Nhà máy FDI – trò chơi mô phỏng điều hành một nhà máy có vốn đầu tư nước ngoài tại Việt Nam qua 8 quý biến động: nguồn đầu vào, thị trường, quy tắc xuất xứ và thuế quan.">
+<meta name="description" content="FDI Factory (Nhà máy FDI) – a simulation game of running a foreign-invested factory in Vietnam across 8 turbulent quarters: input sourcing, markets, rules of origin and tariffs.">
 <style>
 @font-face{font-family:'Plus Jakarta Sans';font-weight:400 800;font-display:swap;src:url(assets/fonts/PlusJakartaSans-var-vietnamese.woff2) format('woff2');unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+1EA0-1EF9,U+20AB}
 @font-face{font-family:'Plus Jakarta Sans';font-weight:400 800;font-display:swap;src:url(assets/fonts/PlusJakartaSans-var-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+2000-206F,U+20AC,U+2122,U+2212}
@@ -30,6 +30,10 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
 .lang-pill{display:flex;border:1px solid var(--line2);border-radius:10px;overflow:hidden;background:var(--panel)}
 .lang-pill button{border:0;background:transparent;color:var(--muted);padding:7px 11px;font-weight:700;font-size:12.5px;cursor:pointer;font-family:inherit}
 .lang-pill button.on{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+.lang-hint{border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--accent) 12%,var(--panel))}
+.lang-hint-in{max-width:1120px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13.5px}
+.lang-hint-in span{flex:1;min-width:200px}
+.lang-hint[hidden]{display:none}
 .hero{padding:28px 0 14px}
 .eyebrow{font-size:12px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em}
 h1{font-size:clamp(26px,4.4vw,38px);line-height:1.15;margin:10px 0}
@@ -81,9 +85,15 @@ footer{color:var(--faint);font-size:12px;text-align:center;margin-top:24px}
   <div class="logo"><span class="mark">🏭</span><span>Nhà máy FDI<span class="sub" id="brandSub"></span></span></div>
   <div class="spacer"></div>
   <a class="tbtn" href="https://thuyhuongctu.github.io/BizOn/" id="backLink"></a>
-  <div class="lang-pill"><button id="langVI" class="on" type="button">VI</button><button id="langEN" type="button">EN</button></div>
+  <div class="lang-pill"><button id="langVI" type="button" lang="vi" title="Tiếng Việt">VI</button><button id="langEN" class="on" type="button" lang="en" title="English">EN</button></div>
   <button class="tbtn" id="themeBtn" type="button"></button>
-</div></div>
+</div>
+  <div class="lang-hint" id="langHint" lang="vi" role="region" aria-label="Gợi ý ngôn ngữ" hidden><div class="lang-hint-in">
+    <span>🇻🇳 Trang này có bản tiếng Việt. Bạn muốn chuyển sang tiếng Việt?</span>
+    <button class="tbtn" id="hintVI" type="button">Chuyển sang tiếng Việt</button>
+    <button class="tbtn" id="hintEN" type="button" lang="en">Keep English</button>
+  </div></div>
+</div>
 
 <main class="wrap" id="app"></main>
 
@@ -151,7 +161,14 @@ footer{color:var(--faint);font-size:12px;text-align:center;margin-top:24px}
       units: 'units', m: 'm', foot: 'Events inspired by the US–China trade war (2018–2019), the EVFTA (2020), COVID-19 (2020–2021), the Red Sea disruption (2023–2024) and US reciprocal tariffs (2025). All magnitudes in the simulation are illustrative. Reference figures: Vietnam Customs (2026), Tables 017.T and 018.T.'
     }
   };
-  let LANG = store.get('fdifactory_lang') === 'en' ? 'en' : 'vi';
+  // Ngôn ngữ: mặc định tiếng Anh; ?lang=vi|en trên URL hoặc lựa chọn đã lưu được ưu tiên.
+  // Trình duyệt đặt tiếng Việt mà chưa chọn lần nào thì hiện thanh gợi ý chuyển sang tiếng Việt.
+  const urlLang = (new URLSearchParams(location.search).get('lang') || '').toLowerCase();
+  const savedLang = store.get('fdifactory_lang');
+  let LANG = urlLang === 'vi' || urlLang === 'en' ? urlLang : savedLang === 'vi' ? 'vi' : 'en';
+  const prefersVi = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''])
+    .some(l => /^vi\b/i.test(l));
+  let showHint = !urlLang && !savedLang && LANG === 'en' && prefersVi;
   const t = k => T[LANG][k];
   const nf = (x, d) => (Number.isFinite(x) ? x : 0).toLocaleString(LANG === 'vi' ? 'vi-VN' : 'en-US', { maximumFractionDigits: d === undefined ? 0 : d, minimumFractionDigits: d === undefined ? 0 : d });
   const musd = x => nf(x / 1e6, 2);
@@ -168,9 +185,12 @@ footer{color:var(--faint);font-size:12px;text-align:center;margin-top:24px}
     $('themeBtn').textContent = (th === 'dark' ? '☀️ ' + t('light') : '🌙 ' + t('dark'));
     $('langVI').classList.toggle('on', LANG === 'vi'); $('langEN').classList.toggle('on', LANG === 'en');
     document.documentElement.lang = LANG; $('footSrc').textContent = t('foot');
+    document.title = LANG === 'vi' ? 'Nhà máy FDI' : 'FDI Factory · Nhà máy FDI';
+    $('langHint').hidden = !(showHint && LANG === 'en');
   }
-  $('langVI').onclick = () => { LANG = 'vi'; store.set('fdifactory_lang', 'vi'); render(); };
-  $('langEN').onclick = () => { LANG = 'en'; store.set('fdifactory_lang', 'en'); render(); };
+  function setLang(l) { LANG = l; showHint = false; store.set('fdifactory_lang', l); render(); }
+  $('langVI').onclick = $('hintVI').onclick = () => setLang('vi');
+  $('langEN').onclick = $('hintEN').onclick = () => setLang('en');
   $('themeBtn').onclick = () => { const n = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); store.set('fdifactory_theme', n); render(); };
 
   function render() {
