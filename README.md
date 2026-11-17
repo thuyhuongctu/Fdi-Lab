@@ -6,7 +6,7 @@ Trò chơi mô phỏng điều hành một nhà máy có vốn đầu tư nướ
 
 ## Chạy thử / Run it
 
-Mở trực tiếp `index.html` trong trình duyệt (không cần máy chủ), hoặc dùng bản đang chạy trực tuyến: **https://thuyhuongctu.github.io/BizOn/lab/nha-may-fdi.html**
+Mở trực tiếp `index.html` trong trình duyệt (không cần máy chủ), hoặc dùng bản đang chạy trực tuyến: **https://bizonland.com/lab/nha-may-fdi.html**
 
 ## Nguồn gốc / Provenance
 
